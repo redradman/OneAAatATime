@@ -5,6 +5,8 @@ from pyrosetta.rosetta.protocols.simple_moves import MutateResidue
 from pyrosetta.rosetta.protocols.membrane import get_secstruct
 from pyrosetta.rosetta.core.scoring.hbonds import HBondSet
 from pyrosetta.rosetta.core.scoring import calc_total_sasa
+from pyrosetta.rosetta.protocols.membrane import get_secstruct
+
 
 
 # added for gyration 
@@ -41,11 +43,13 @@ def single_mutation_analysis(wt_pose):
     
     # adding the wildtype in the 1st row of the data frame
     df.loc[len(df)] = ['wild_type', 'NA', 'NA', 'NA',  'NA',  'NA', wt_pose.sequence(), calculate_FA_score(wt_pose),
-                               0, # the ddG (change in binding free energy)
-                               calculate_hbonds_comprehensive(wt_pose), # hydrogen bonding patterns
-                               calc_sasa(wt_pose), # solvent accessible surface area
-                               'secondary_structure'
+                               0, # the ddG 
+                               calculate_hbonds_comprehensive(wt_pose), # hydrogen bonding 
+                               calc_sasa(wt_pose), # SASA
+                               calculate_secondary_stucture(wt_pose)
                                ]
+    
+    # the loop for adding all of the mutants
     
     
     
@@ -80,17 +84,6 @@ def calculate_ddg_score(wt_pose, mut_pose):
     ddg_score = mut_score - wt_score
     
     return ddg_score
-
-################################################################
-def calculate_secondary_stucture(pose) -> str:
-    """
-    returns the secondary structure of the passed pose in string format
-    """
-    secstruct = get_secstruct(pose)
-    sec_strcuture = ""
-    for i, sec_elem in enumerate(secstruct, start=1):
-        sec_strcuture += sec_elem
-    return sec_strcuture
 
 ################################################################
 def calculate_hbonds_simple(pose) -> int:
@@ -214,7 +207,16 @@ def calc_sasa(pose, probe_radius) ->float:
     """
     return calc_total_sasa(pose, probe_radius)
 
-    
+################################################################
+def calculate_secondary_stucture(pose) -> str:
+    """
+    returns the secondary structure of the passed pose in string format
+    """
+    secstruct = get_secstruct(pose)
+    sec_strcuture = ""
+    for i, sec_elem in enumerate(secstruct, start=1):
+        sec_strcuture += sec_elem
+    return sec_strcuture
 
 
 ################################################################
