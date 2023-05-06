@@ -4,6 +4,8 @@ from pyrosetta import *
 from pyrosetta.rosetta.protocols.simple_moves import MutateResidue
 from pyrosetta.rosetta.protocols.membrane import get_secstruct
 from pyrosetta.rosetta.core.scoring.hbonds import HBondSet
+from pyrosetta.rosetta.core.scoring import calc_total_sasa
+
 
 # added for gyration 
 # import math
