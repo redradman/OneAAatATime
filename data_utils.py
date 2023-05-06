@@ -36,7 +36,7 @@ def single_mutation_analysis(wt_pose):
     
     # adding the wildtype in the 1st row of the data frame
     df.loc[len(df)] = ['wild_type', 'NA', 'NA', 'NA',  'NA',  'NA', wt_pose.sequence(), calculate_FA_score(wt_pose),
-                               'ddg_energy', # the ddG (change in binding free energy)
+                               0, # the ddG (change in binding free energy)
                                calculate_hbonds_comprehensive(wt_pose), # hydrogen bonding patterns
                                'gyration_radius', # radius of gyration is a measure of the protein's compactness.
                                'sasa_score', # solvent accessible surface area
@@ -56,7 +56,26 @@ def calculate_FA_score(pose):
     """
     # Create a scoring function
     score_function = get_fa_scorefxn() 
+    # score_function = create_score_function("score12")
     return score_function(pose)
+
+
+################################################################
+def calculate_ddg_score(wt_pose, mut_pose):
+    """
+    Returns the ddG (change in binding free energy) score for the passed pose.
+    """
+    # Create a scoring function
+    score_function = create_score_function('ref2015') 
+    
+    # Calculate score the wild-type and mutant poses
+    wt_score = score_function(wt_pose)
+    mut_score = score_function(mut_pose)
+    
+    # calculate ddg
+    ddg_score = mut_score - wt_score
+    
+    return ddg_score
 
 ################################################################
 def calculate_secondary_stucture(pose) -> str:
