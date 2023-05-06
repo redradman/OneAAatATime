@@ -1,6 +1,9 @@
 # importing libraries 
+import pandas as pd
 from pyrosetta import *
 from pyrosetta.rosetta.protocols.simple_moves import MutateResidue
+from pyrosetta.rosetta.protocols.membrane import get_secstruct
+
 
 # initializing PyRosetta
 pyrosetta.init()
@@ -11,7 +14,21 @@ def single_mutation_analysis(wt_pose):
     """
     Creates all possible single AA mutation when given a wildtype pose
     """
-    pass
+    
+    df = pd.DataFrame(columns=['type', # wild_type or mutant
+                               'residue_number', # the number of the targeted residue
+                               'previous_aa', # Previous amino acid (in the wildtype)
+                               'new_aa_1l', # the 1 letter representation of the new amino acid
+                               'new_aa_3l', # the 3 letter representation of the new amino acid
+                               'conversion' # resiude number + previous aa + new aa i.e. 3AtoR (at resiude number 3 A was converted to R)
+                               'new_seq', # the new amino acid sequence after the mutation has been applied (if it is mutant otherwise it is wildtype)
+                               'fa_score', # the Full Atom score for the new amino acid
+                               'ddg_score', # the ddG (change in binding free energy) score
+                               'hbond_score', # hydrogen bonding patterns
+                               'gyration_radius', # radius of gyration is a measure of the protein's compactness.
+                               'sasa_score', # solvent accessible surface area
+                               'secondary_structure'
+                               ])
 
 
 ################################################################
@@ -23,6 +40,16 @@ def calculate_FA_score(pose):
     score_function = get_fa_scorefxn() 
     return score_function(pose)
 
+################################################################
+def calculate_secondary_stucture(pose) -> str:
+    """
+    returns the secondary structure of the passed pose in string format
+    """
+    secstruct = get_secstruct(pose)
+    sec_strcuture = ""
+    for i, sec_elem in enumerate(secstruct, start=1):
+        sec_strcuture += sec_elem
+    return sec_strcuture
 
 ################################################################
 def mutate_residue(pose, residue_number, new_residue):
