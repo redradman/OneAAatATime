@@ -7,13 +7,21 @@ pyrosetta.init()
 
 
 ################################################################
+def single_mutation_analysis(wt_pose):
+    """
+    Creates all possible single AA mutation when given a wildtype pose
+    """
+    pass
 
 
-
-
-
-
-
+################################################################
+def calculate_FA_score(pose):
+    """ 
+    Returns the Full Atom score for the passed pose.
+    """
+    # Create a scoring function
+    score_function = get_fa_scorefxn() 
+    return score_function(pose)
 
 
 ################################################################
@@ -43,5 +51,36 @@ def find_unique_aa_in_pdb(pose):
             
     return f"Unique amino acids in the PDB file: {unique_amino_acids}"
 
+
+
+################################################################
+def get_three_letter_code(one_letter_code: str) -> str:
+    """
+    Returns the 3 letter code for the passed amino acid 1 letter code
+    """
+    aa_codes = {
+        'A': 'ALA',
+        'C': 'CYS',
+        'D': 'ASP',
+        'E': 'GLU',
+        'F': 'PHE',
+        'G': 'GLY',
+        'H': 'HIS',
+        'I': 'ILE',
+        'K': 'LYS',
+        'L': 'LEU',
+        'M': 'MET',
+        'N': 'ASN',
+        'P': 'PRO',
+        'Q': 'GLN',
+        'R': 'ARG',
+        'S': 'SER',
+        'T': 'THR',
+        'V': 'VAL',
+        'W': 'TRP',
+        'Y': 'TYR'
+    }
+
+    return aa_codes.get(one_letter_code.upper(), None)
 
 # print(mutant_pose.sequence())
