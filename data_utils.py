@@ -4,6 +4,7 @@ from pyrosetta import *
 from pyrosetta.rosetta.protocols.simple_moves import MutateResidue
 from pyrosetta.rosetta.protocols.membrane import get_secstruct
 from pyrosetta.rosetta.core.scoring.hbonds import HBondSet
+from pyrosetta.rosetta.core.simple_metrics.metrics import RadiusOfGyrationMetric
 
 
 
@@ -29,7 +30,6 @@ def single_mutation_analysis(wt_pose):
                                'fa_score', # the Full Atom score for the new amino acid
                                'ddg_score', # the ddG (change in binding free energy) score
                                'hbond_score', # hydrogen bonding patterns
-                               'gyration_radius', # radius of gyration is a measure of the protein's compactness.
                                'sasa_score', # solvent accessible surface area
                                'secondary_structure'
                                ])
@@ -38,7 +38,6 @@ def single_mutation_analysis(wt_pose):
     df.loc[len(df)] = ['wild_type', 'NA', 'NA', 'NA',  'NA',  'NA', wt_pose.sequence(), calculate_FA_score(wt_pose),
                                0, # the ddG (change in binding free energy)
                                calculate_hbonds_comprehensive(wt_pose), # hydrogen bonding patterns
-                               'gyration_radius', # radius of gyration is a measure of the protein's compactness.
                                'sasa_score', # solvent accessible surface area
                                'secondary_structure'
                                ]
@@ -145,6 +144,48 @@ def iterate_through_all_hbonds(pose):
         energy = hbond.energy()
         print(f"Hydrogen bond {i}: {donor_res_num}-{donor_atom} -> {acceptor_res_num}-{acceptor_atom}, energy: {energy}")
 
+################################################################
+######### FUNCTION BRLOW IS NOT WORKING 
+# def calculate_gyration_radius(pose) -> float:
+#     """
+#     Returns the radius of gyration for the passed pose.
+    
+#     NOT FUNCTIONING
+#     """
+    
+#     def center_of_mass(pose):
+#         total_mass = 0.0
+#         com = xyzVector_double_t(0.0, 0.0, 0.0)
+
+#         for i in range(1, pose.total_residue() + 1):
+#             residue = pose.residue(i)
+#             for j in range(1, residue.natoms() + 1):
+#                 atom = residue.atom(j)
+#                 mass = residue.atom_type_set().atom_type(residue.atom_type_index(j)).mass()
+#                 com += atom.xyz() * mass
+#                 total_mass += mass
+
+#         return com / total_mass
+    
+#     def radius_of_gyration(pose):
+#         com = center_of_mass(pose)
+#         num_residues = pose.total_residue()
+#         rg = 0.0
+
+#         for i in range(1, num_residues + 1):
+#             residue = pose.residue(i)
+#             for j in range(1, residue.natoms() + 1):
+#                 atom = residue.atom(j)
+#                 rg += atom.xyz().distance_squared(com)
+
+#         rg = math.sqrt(rg / pose.total_atoms())
+#         return rg
+    
+#     gyration_radius = radius_of_gyration(wt_pose)
+
+#     return gyration_radius
+
+    
 
 
 ################################################################
