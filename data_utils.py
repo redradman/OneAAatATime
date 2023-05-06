@@ -42,20 +42,6 @@ def single_mutation_analysis(wt_pose):
                                'sasa_score', # solvent accessible surface area
                                'secondary_structure'
                                ]
-    # df.loc[len(df)] = ['wild_type', # wild_type or mutant
-    #                            'NA', # the number of the targeted residue
-    #                            '', # Previous amino acid (in the wildtype)
-    #                            'new_aa_1l', # the 1 letter representation of the new amino acid
-    #                            'new_aa_3l', # the 3 letter representation of the new amino acid
-    #                            'conversion' # resiude number + previous aa + new aa i.e. 3AtoR (at resiude number 3 A was converted to R)
-    #                            'new_seq', # the new amino acid sequence after the mutation has been applied (if it is mutant otherwise it is wildtype)
-    #                            'fa_score', # the Full Atom score for the new amino acid
-    #                            'ddg_score', # the ddG (change in binding free energy) score
-    #                            'hbond_score', # hydrogen bonding patterns
-    #                            'gyration_radius', # radius of gyration is a measure of the protein's compactness.
-    #                            'sasa_score', # solvent accessible surface area
-    #                            'secondary_structure'
-    #                            ]
     
     
     
@@ -95,7 +81,6 @@ def calculate_hbonds_simple(pose) -> int:
     """
     hbond_set_wt = HBondSet(pose)
     return hbond_set_wt.nhbonds()
-    
 
 
 ################################################################
@@ -116,6 +101,30 @@ def calculate_hbonds_comprehensive(pose) -> int:
 
     total_hbonds = hbond_set.nhbonds()
     return total_hbonds
+
+
+################################################################
+def iterate_through_all_hbonds(pose):
+    """
+    prints all of the hbonfs in the passed pose
+    """
+    score_function = get_score_function()
+
+    hbond_set = HBondSet()
+    pose.update_residue_neighbors()
+    hbond_set.setup_for_residue_pair_energies(pose, False, False)
+
+    total_hbonds = hbond_set.nhbonds()
+    print("Total hydrogen bonds:", total_hbonds)
+
+    for i in range(1, total_hbonds + 1):
+        hbond = hbond_set.hbond(i)
+        donor_res_num = hbond.don_res()
+        acceptor_res_num = hbond.acc_res()
+        donor_atom = pose.residue(donor_res_num).atom_name(hbond.don_hatm())
+        acceptor_atom = pose.residue(acceptor_res_num).atom_name(hbond.acc_atm())
+        energy = hbond.energy()
+        print(f"Hydrogen bond {i}: {donor_res_num}-{donor_atom} -> {acceptor_res_num}-{acceptor_atom}, energy: {energy}")
 
 
 
