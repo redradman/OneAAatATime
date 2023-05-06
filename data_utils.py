@@ -4,7 +4,10 @@ from pyrosetta import *
 from pyrosetta.rosetta.protocols.simple_moves import MutateResidue
 from pyrosetta.rosetta.protocols.membrane import get_secstruct
 from pyrosetta.rosetta.core.scoring.hbonds import HBondSet
-from pyrosetta.rosetta.core.simple_metrics.metrics import RadiusOfGyrationMetric
+
+# added for gyration 
+# import math
+# from pyrosetta.rosetta.numeric import xyzVector_double_t
 
 
 
@@ -38,7 +41,7 @@ def single_mutation_analysis(wt_pose):
     df.loc[len(df)] = ['wild_type', 'NA', 'NA', 'NA',  'NA',  'NA', wt_pose.sequence(), calculate_FA_score(wt_pose),
                                0, # the ddG (change in binding free energy)
                                calculate_hbonds_comprehensive(wt_pose), # hydrogen bonding patterns
-                               'sasa_score', # solvent accessible surface area
+                               calc_sasa(wt_pose), # solvent accessible surface area
                                'secondary_structure'
                                ]
     
@@ -184,6 +187,30 @@ def iterate_through_all_hbonds(pose):
 #     gyration_radius = radius_of_gyration(wt_pose)
 
 #     return gyration_radius
+
+
+
+################################################################    
+def calc_sasa(pose) -> float:
+    """ 
+    calculates the solvent accessible surface area of a pose for water
+    """
+    probe_radius = 1.4  # Use the default probe_radius of 1.4 Å for water
+    sasa = calc_total_sasa(pose, probe_radius)
+    return sasa
+    
+    
+def calc_sasa(pose, probe_radius) ->float:
+    """
+    calculates the solvent accessible surface area for a pose given a radius 
+    The probe radius represents the size of the solvent molecule
+    
+    The probe_radius is a parameter used in the calculation of the solvent accessible surface area (SASA) of a biomolecule,
+    such as a protein. 
+    The SASA calculation method is based on the rolling sphere algorithm, 
+    where a spherical "probe" of a certain radius rolls over the surface of the molecule.
+    """
+    return calc_total_sasa(pose, probe_radius)
 
     
 
