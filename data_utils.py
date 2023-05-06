@@ -6,6 +6,7 @@ from pyrosetta.rosetta.protocols.membrane import get_secstruct
 from pyrosetta.rosetta.core.scoring.hbonds import HBondSet
 from pyrosetta.rosetta.core.scoring import calc_total_sasa
 from pyrosetta.rosetta.protocols.membrane import get_secstruct
+from tqdm import tqdm
 
 
 
@@ -45,11 +46,22 @@ def single_mutation_analysis(wt_pose):
     df.loc[len(df)] = ['wild_type', 'NA', 'NA', 'NA',  'NA',  'NA', wt_pose.sequence(), calculate_FA_score(wt_pose),
                                0, # the ddG 
                                calculate_hbonds_comprehensive(wt_pose), # hydrogen bonding 
-                               calc_sasa(wt_pose), # SASA
+                               calc_sasa_water(wt_pose), # SASA
                                calculate_secondary_stucture(wt_pose)
                                ]
     
     # the loop for adding all of the mutants
+    amino_acids = "ACDEFGHIKLMNPQRSTVWY"  # List of 20 standard amino acids
+
+    for i in tqdm(range(1, wt_pose.total_residue() + 1), desc="Mutating residues"):
+        current_residue = wt_pose.residue(i).name1()
+        for aa in amino_acids:
+            if aa != current_residue:
+                mutant_pose = wt_pose.clone()
+                mutant_pose = mutate_residue(mutant_pose, i, get_three_letter_code(aa))
+                # print(f"Mutated residue {i} from {current_residue} to {aa}:")
+                # print(mutant_pose.sequence())
+        
     
     
     
@@ -186,7 +198,7 @@ def iterate_through_all_hbonds(pose):
 
 
 ################################################################    
-def calc_sasa(pose) -> float:
+def calc_sasa_water(pose) -> float:
     """ 
     calculates the solvent accessible surface area of a pose for water
     """
@@ -224,7 +236,7 @@ def mutate_residue(pose, residue_number, new_residue):
     """ 
     creates a new pose with a the given residue number and a new residue.
     
-    For example, mutate_residue("AAA", 1, R) return the new pose "RAA"
+    For example, mutate_residue("AAA", 1, VAL) return the new pose "VAA"
     """
     mutate = MutateResidue(target=residue_number, new_res=new_residue)
     mutate.apply(pose)
