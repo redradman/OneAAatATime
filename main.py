@@ -1,20 +1,24 @@
 from pyrosetta import *
-# from pyrosetta.rosetta.protocols.simple_moves import MutateResidue
-# from pyrosetta.toolbox.mutants import mutate_residue
-from pyrosetta.toolbox import mutate_residue
+from pyrosetta.rosetta.protocols.simple_moves import MutateResidue
 
 pyrosetta.init()
 
 
 wt_pose = pyrosetta.pose_from_pdb("StayGold_Intein_v9.pdb")
-# print(wt_pose)
 
 
 mutant_pose = wt_pose.clone()
+print(mutant_pose)
 
-residue_number = 11  # Replace this with the residue number you want to mutate
-new_residue = 'B'    # Replace 'A' with the one-letter code of the desired amino acid
 
+residue_number = 1  # Replace this with the residue number you want to mutate
+new_residue = 'ALA'    # 3 Letter code for the new residue
+
+
+def mutate_residue(pose, residue_number, new_residue):
+    mutate = MutateResidue(target=residue_number, new_res=new_residue)
+    mutate.apply(pose)
+    return pose
 
 mutant_pose = mutate_residue(mutant_pose, residue_number, new_residue)
 
