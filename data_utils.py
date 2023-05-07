@@ -50,8 +50,8 @@ def single_mutation_analysis(wt_pose):
     # the loop for adding all of the mutants
     amino_acids = "ACDEFGHIKLMNPQRSTVWY"  # List of 20 standard amino acids
 
-    # for i in tqdm(range(1, wt_pose.total_residue() + 1), desc="Mutating residues"):
-    for i in range(1, 12):
+    for i in tqdm(range(1, wt_pose.total_residue() + 1), desc="Mutating residues"):
+    # for i in range(1, wt_pose.total_residue() + 1):
         current_residue = wt_pose.residue(i).name1()
         for aa in amino_acids:
             if aa != current_residue:
@@ -85,7 +85,7 @@ def single_mutation_analysis(wt_pose):
                 
     
     # converting the data frame to a csv file
-    df.to_csv('example.csv', index=False)
+    df.to_csv('data.csv', index=False)
 
 
 def make_data_frame():
@@ -269,9 +269,10 @@ def calculate_secondary_stucture(pose) -> str:
     """
     secstruct = get_secstruct(pose)
     sec_strcuture = ""
-    for i, sec_elem in enumerate(secstruct, start=1):
+    for _, sec_elem in enumerate(secstruct, start=1):
         sec_strcuture += sec_elem
     return sec_strcuture
+
 
 
 def string_difference(str1, str2) -> int:

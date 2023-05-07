@@ -1,2 +1,0 @@
-PyRosetta-4 2023 [Rosetta PyRosetta4.MinSizeRel.python310.m1 2023.17+release.75d0e58efa87407d4905f7010fe9e25f3d8cdde1 2023-04-25T11:14:13] retrieved from: http://www.pyrosetta.org
-(C) Copyright Rosetta Commons Member Institutions. Created in JHU by Sergey Lyskov and PyRosetta Team.
