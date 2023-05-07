@@ -16,7 +16,7 @@ from tqdm import tqdm
 
 
 ################################################################
-def single_mutation_analysis(wt_pose):
+def single_mutation_analysis(wt_pose, filename):
     """
     Creates all possible single AA mutation when given a wildtype pose
     """
@@ -85,7 +85,7 @@ def single_mutation_analysis(wt_pose):
                 
     
     # converting the data frame to a csv file
-    df.to_csv('data.csv', index=False)
+    df.to_csv(filename, index=False)
 
 
 def make_data_frame():
