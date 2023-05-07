@@ -15,19 +15,83 @@ from tqdm import tqdm
 # from pyrosetta.rosetta.numeric import xyzVector_double_t
 
 
-
-# initializing PyRosetta
-pyrosetta.init()
-
-
 ################################################################
 def single_mutation_analysis(wt_pose):
     """
     Creates all possible single AA mutation when given a wildtype pose
     """
     
+    df = make_data_frame()
     
-    # Creating the pandas data structure
+    wt_seq = wt_pose.sequence()
+    wt_FA_score = calculate_FA_score(wt_pose)
+    wt_hbonds = calculate_hbonds_simple(wt_pose)
+    wt_sasa = calc_sasa_water(wt_pose)
+    wt_secondary = calculate_secondary_stucture(wt_pose)
+    
+    # adding the wildtype in the 1st row of the data frame
+    df.loc[len(df)] = ['wild_type', 
+                       'NA', 
+                       'NA', 
+                       'NA',  
+                       'NA',  
+                       'NA', 
+                       wt_seq, 
+                       wt_FA_score,
+                        0, # the ddG 
+                        wt_hbonds, # hydrogen bonding 
+                        wt_sasa, # SASA
+                        wt_secondary,
+                        0,
+                        0,
+                        0
+                        ]
+    
+    # the loop for adding all of the mutants
+    amino_acids = "ACDEFGHIKLMNPQRSTVWY"  # List of 20 standard amino acids
+
+    # for i in tqdm(range(1, wt_pose.total_residue() + 1), desc="Mutating residues"):
+    for i in range(1, 12):
+        current_residue = wt_pose.residue(i).name1()
+        for aa in amino_acids:
+            if aa != current_residue:
+                mutant_pose = wt_pose.clone()
+                residue = wt_pose.residue(i)
+                previous_aa = residue.name1()
+                mutant_pose = mutate_residue(mutant_pose, i, get_three_letter_code(aa))
+                
+                mut_hbonds = calculate_hbonds_simple(mutant_pose)
+                mut_sasa = calc_sasa_water(mutant_pose)
+                mut_secondary = calculate_secondary_stucture(mutant_pose)
+                
+                
+                # adding row to the data frame
+                df.loc[len(df)] = ['mutant', # wild_type or mutant
+                               i,  # residue
+                               previous_aa, # previous aa
+                               aa, # new AA 1L
+                               get_three_letter_code(aa), # new AA 3L
+                               str(i) + previous_aa + "to" + aa, # resiude number + previous aa + new aa i.e. 3AtoR (at resiude number 3 A was converted to R)
+                               mutant_pose.sequence(), # new seq
+                               calculate_FA_score(mutant_pose), # FA score
+                               calculate_ddg_score(wt_pose, mutant_pose), # the ddG score
+                               mut_hbonds, # hydrogen bonding
+                               mut_sasa, # SASA
+                               mut_secondary, # 2nd-ary structure string
+                               mut_hbonds - wt_hbonds, # diff hbonds
+                               mut_sasa - wt_sasa, # diff sasa
+                               string_difference(wt_secondary, mut_secondary) # diff 2nd-ary structure
+                               ]
+                
+    
+    # converting the data frame to a csv file
+    df.to_csv('example.csv', index=False)
+
+
+def make_data_frame():
+    """ 
+    creates a pandas data frame with all of the data
+    """
     df = pd.DataFrame(columns=['type', # wild_type or mutant
                                'residue_number', # the number of the targeted residue
                                'previous_aa', # Previous amino acid (in the wildtype)
@@ -39,35 +103,14 @@ def single_mutation_analysis(wt_pose):
                                'ddg_score', # the ddG (change in binding free energy) score
                                'hbond_score', # hydrogen bonding patterns
                                'sasa_score', # solvent accessible surface area
-                               'secondary_structure'
+                               'secondary_structure',
+                               'diff_hbonds',
+                               'diff_sasa',
+                               'diff_secondary_structure'
                                ])
     
-    # adding the wildtype in the 1st row of the data frame
-    df.loc[len(df)] = ['wild_type', 'NA', 'NA', 'NA',  'NA',  'NA', wt_pose.sequence(), calculate_FA_score(wt_pose),
-                               0, # the ddG 
-                               calculate_hbonds_comprehensive(wt_pose), # hydrogen bonding 
-                               calc_sasa_water(wt_pose), # SASA
-                               calculate_secondary_stucture(wt_pose)
-                               ]
+    return df
     
-    # the loop for adding all of the mutants
-    amino_acids = "ACDEFGHIKLMNPQRSTVWY"  # List of 20 standard amino acids
-
-    for i in tqdm(range(1, wt_pose.total_residue() + 1), desc="Mutating residues"):
-        current_residue = wt_pose.residue(i).name1()
-        for aa in amino_acids:
-            if aa != current_residue:
-                mutant_pose = wt_pose.clone()
-                mutant_pose = mutate_residue(mutant_pose, i, get_three_letter_code(aa))
-                # print(f"Mutated residue {i} from {current_residue} to {aa}:")
-                # print(mutant_pose.sequence())
-        
-    
-    
-    
-    # converting the data frame to a csv file
-    df.to_csv('example.csv', index=False)
-
 
 ################################################################
 def calculate_FA_score(pose):
@@ -229,6 +272,25 @@ def calculate_secondary_stucture(pose) -> str:
     for i, sec_elem in enumerate(secstruct, start=1):
         sec_strcuture += sec_elem
     return sec_strcuture
+
+
+def string_difference(str1, str2) -> int:
+    """
+    Computes the difference between two strings by counting the number of characters that differ between them.
+    Args:
+
+    Returns:
+        int: The number of characters that differ between the two strings.
+    """
+    # Ensure that the input strings have the same length
+    if len(str1) != len(str2):
+        raise ValueError("Input strings must have the same length.")
+    # Check if the strings are the same
+    if str1 == str2:
+        return 0
+    # Compute the difference by counting the number of differing characters
+    diff_count = sum(1 for c1, c2 in zip(str1, str2) if c1 != c2)
+    return diff_count
 
 
 ################################################################
