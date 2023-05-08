@@ -13,8 +13,8 @@ os.system('pip3 install -r requirements.txt')
 pyrosetta.init("-out:level 600")
 
 # reading the PDB file
-stay_gold = pyrosetta.pose_from_pdb("StayGold_Intein_v9.pdb")
-gyra_intein = pyrosetta.pose_from_pdb("1am2.pdb")
+stay_gold = pyrosetta.pose_from_pdb("pdb_files/StayGold_Intein_v9.pdb")
+gyra_intein = pyrosetta.pose_from_pdb("pdb_files/1am2.pdb")
 
 # commencing analysis
 # single_mutation_analysis(stay_gold, "stayGold.csv")

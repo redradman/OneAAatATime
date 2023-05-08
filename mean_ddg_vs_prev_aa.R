@@ -48,6 +48,6 @@ p <- ggplot(data, aes(x = factor(previous_aa, levels = previous_aa), y = mean_dd
 
 p 
 
-ggsave("mean_ddg_score_by_prev_aa.png", p, width = 8, height = 6, dpi = 300)
+ggsave(filename = file.path("charts", "mean_ddg_score_by_prev_aa.png"), plot = p, width = 8, height = 6, dpi = 300)
 
 

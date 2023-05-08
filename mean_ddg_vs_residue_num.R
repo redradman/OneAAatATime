@@ -86,7 +86,7 @@ p_batch <- ggplot(data_batched, aes(x = factor(batch), y = mean_ddg)) +
 
 p_batch
 
-ggsave("mean_ddg_score_per_batch_of_residue_num.png", p_batch, width = 8, height = 6, dpi = 300)
+ggsave(filename = file.path("charts", "mean_ddg_score_per_batch_of_residue_num.png") , plot = p_batch, width = 8, height = 6, dpi = 300)
 
 
 
