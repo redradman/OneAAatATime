@@ -1,4 +1,4 @@
-# MutantWatch
+# OneAAatATime
 Before running the `main.py` make sure that you have installed [PyRosetta](https://www.pyrosetta.org/downloads) and [python3](https://www.python.org/downloads/) 
 You can clone this repo and add your .pdb file to the same directory as `main.py` to simulate single AA mutation across all of the AA chain of your .pdb file. 
 
