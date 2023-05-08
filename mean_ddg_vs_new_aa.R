@@ -36,7 +36,7 @@ p <- ggplot(data, aes(x = reorder(new_aa_1l, -mean_ddg), y = mean_ddg)) +
 
 p 
 # Save the plot as a high-resolution PNG file
-ggsave("mean_ddg_score_by_vs_new_aa.png", p, width = 8, height = 6, dpi = 300)
+ggsave("mean_ddg_score_vs_new_aa.png", p, width = 8, height = 6, dpi = 300)
 
 
 
