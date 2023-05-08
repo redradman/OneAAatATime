@@ -1,5 +1,5 @@
 # OneAAatATime
-Before running the `main.py` make sure that you have installed [PyRosetta](https://www.pyrosetta.org/downloads) and [python3](https://www.python.org/downloads/) 
+Before running the `main.py` make sure that you have installed [PyRosetta](https://www.pyrosetta.org/downloads) and [python3](https://www.python.org/downloads/).
 You can clone this repo and add your .pdb file to the same directory as `main.py` to simulate single AA mutation across all of the AA chain of your .pdb file. 
 
 ## How to do single amino acid mutation on a new .pdb file
@@ -15,7 +15,7 @@ After the addition go to the directory where this repository is and run the line
 ```
 python3 main.py
 ```
-*Note: make sure that the other lines are commented out. Additionally note that the simulation can take sometime. During the simulation you will see outputs in your terminal but you can and should ignore them. A progress bar is also in the output after each iteration is completed and should provide you with an estimated time written on the right hand side of the bar.*
+*Note: make sure that the other lines are commented out. Additionally, note that the simulation can take sometime. During the simulation you will see outputs in your terminal, but you can and should ignore them. A progress bar is also in the output after each iteration is completed and should provide you with an estimated time written on the right hand side of the bar.*
 
 ## The following data are the headers of the .`csv` file: 
 1. **type**: wild-type or mutant (*only the first row is wild-type*) 
