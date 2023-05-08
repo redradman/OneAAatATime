@@ -1,5 +1,5 @@
 # OneAAatATime
-Before running the `main.py` make sure that you have installed [PyRosetta](https://www.pyrosetta.org/downloads) and [python3](https://www.python.org/downloads/) 
+Before running the `main.py` make sure that you have installed [PyRosetta](https://www.pyrosetta.org/downloads) and [python3](https://www.python.org/downloads/).
 You can clone this repo and add your .pdb file to the same directory as `main.py` to simulate single AA mutation across all of the AA chain of your .pdb file. 
 
 ## How to do single amino acid mutation on a new .pdb file
@@ -9,13 +9,13 @@ new_protein = pyrosetta.pose_from_pdb("new_protein.pdb")
 
 single_mutation_analysis(new_protein, "data.csv")
 ```
-`single_mutation_analysis()` takes **pose** and **filename**. Afterwards, each amino acid in the chain will be replaced with all 19 other amino acids 
+`single_mutation_analysis()` takes **pose** and **filename**. Afterwards, each amino acid in the chain will be replaced with all 19 other amino acids and then energy values and the number of hydrogen bonds will be calculated for each of them. 
 
-After the addition go to the directory where this repository is and run the line below in terminal to begin the simulation. Make sure that you have installed PyRosetta for that environment. 
+After the addition of the two lines above, go to the directory where this repository is located and run the line below in terminal to begin the simulation. Make sure that you have installed PyRosetta for that environment. 
 ```
 python3 main.py
 ```
-*Note: make sure that the other lines are commented out. Additionally note that the simulation can take sometime. During the simulation you will see outputs in your terminal but you can and should ignore them. A progress bar is also in the output after each iteration is completed and should provide you with an estimated time written on the right hand side of the bar.*
+*Note: Make sure that only the relevant `single_mutation_analysis()` is running and comment out the unnecessary ones. Additionally, note that the simulation can take sometime. During the simulation you will see outputs in your terminal, but you can and should ignore them. A progress bar is also in the outputs after each iteration is completed and should provide you with an estimated time of completion which is written on the right hand side of the bar.*
 
 ## The following data are the headers of the .`csv` file: 
 1. **type**: wild-type or mutant (*only the first row is wild-type*) 
