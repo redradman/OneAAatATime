@@ -7,7 +7,7 @@ You can clone this repo and add your .pdb file to the same directory as `main.py
 ```python
 new_protein = pyrosetta.pose_from_pdb("new_protein.pdb")
 
-single_mutation_analysis(gyra_intein, "data.csv")
+single_mutation_analysis(new_protein, "data.csv")
 ```
 `single_mutation_analysis()` takes **pose** and **filename**. Afterwards, each amino acid in the chain will be replaced with all 19 other amino acids 
 
