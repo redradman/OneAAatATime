@@ -11,15 +11,13 @@ single_mutation_analysis(gyra_intein, "data.csv")
 ```
 `single_mutation_analysis()` takes **pose** and **filename**. Afterwards, each amino acid in the chain will be replaced with all 19 other amino acids 
 
-
 After the addition go to the directory where this repository is and run the line below in terminal to begin the simulation. Make sure that you have installed PyRosetta for that environment. 
 ```
 python3 main.py
 ```
-##### Note: make sure that the other lines are commented out. Additionally note that the simulation can take sometime. During the simulation you will see outputs in your terminal but you can and should ignore them. A progress bar is also in the output after each iteration is completed and should provide you with an estimated time written on the right hand side of the bar. 
+*Note: make sure that the other lines are commented out. Additionally note that the simulation can take sometime. During the simulation you will see outputs in your terminal but you can and should ignore them. A progress bar is also in the output after each iteration is completed and should provide you with an estimated time written on the right hand side of the bar.*
 
 ## The following data are the headers of the .`csv` file: 
-(Consider "ARVB" sequence as an example)
 1. **type**: wild-type or mutant (*only the first row is wild-type*) 
 2. **residue_number**: The number of the residue that is being mutated. In "ARVB" sequence, if R is being mutated then the value will be 2 (*one-based indexing*)
 3. **previous_aa**: the previous amino acid that was in the wild-type before being mutated at location `residue_number`
