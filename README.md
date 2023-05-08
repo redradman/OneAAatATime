@@ -2,7 +2,7 @@
 Before running the `main.py` make sure that you have installed [PyRosetta](https://www.pyrosetta.org/downloads) and [python3](https://www.python.org/downloads/) 
 You can clone this repo and add your .pdb file to the same directory as `main.py` to simulate single AA mutation across all of the AA chain of your .pdb file. 
 
-## How to do single amino acid mutation on my .pdb file file
+## How to do single amino acid mutation on a new .pdb file
 **Add the lines below to `main.py` to simulate the single amino acid mutation across the entire chain.**
 ```python
 new_protein = pyrosetta.pose_from_pdb("new_protein.pdb")
