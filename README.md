@@ -18,7 +18,7 @@ python3 main.py
 ```
 *Note: Make sure that only the relevant `single_mutation_analysis()` is running and comment out the unnecessary ones. Additionally, note that the simulation can take sometime. During the simulation you will see outputs in your terminal, but you can and should ignore them. A progress bar is also in the outputs after each iteration is completed and should provide you with an estimated time of completion which is written on the right hand side of the bar.*
 
-## The following data are the headers of the .`csv` file: 
+## The following data are the headers of the generated .`csv` file which contains the result of simulation: 
 1. **type**: wild-type or mutant (*only the first row is wild-type*) 
 2. **residue_number**: The number of the residue that is being mutated. In "ARVB" sequence, if R is being mutated then the value will be 2 (*one-based indexing*)
 3. **previous_aa**: the previous amino acid that was in the wild-type before being mutated at location `residue_number`
