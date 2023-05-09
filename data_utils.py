@@ -90,7 +90,7 @@ def single_mutation_analysis(wt_pose, filename):
 
 def make_data_frame():
     """ 
-    creates a pandas data frame with all of the data
+    creates a pandas data frame which will be used as a skeleton to store all of the data
     """
     df = pd.DataFrame(columns=['type', # wild_type or mutant
                                'residue_number', # the number of the targeted residue
