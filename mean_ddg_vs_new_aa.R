@@ -28,11 +28,21 @@ p <- ggplot(data, aes(x = reorder(new_aa_1l, -mean_ddg), y = mean_ddg)) +
        y = "Mean ddg score",
        subtitle = "The new (mutated) amino acid chains were group together by which amino acid was added.\nAfterwards, the mean ddg value was calculated for the new residue.\nThis shows that on average a single point mutation with P as the new residue increases the ddg value the most.\nConversely, if the new residue is G the mean ddg value is unlikely to change.") +
   scale_y_continuous(limits = c(0, 2000), breaks = seq(0, 2000, by = 250)) + # set the y-axis limits and intervals
-  # theme_economist() + # use The Economist theme
   coord_flip() +  # flip the x and y axes
-  theme(plot.title = element_text(hjust = 0.5, margin = margin(b = 10)),
-        plot.subtitle = element_text(hjust = 0, margin = margin(b = 5)),
-        panel.background = element_rect(fill = NA))
+  theme(plot.background = element_rect(fill = "#191919", color = NA),
+        panel.background = element_blank(),
+        panel.grid.major.y = element_line(color = "gray90", size = 0.5),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        axis.line = element_line(color = "white"),
+        axis.ticks = element_line(color = "white"),
+        axis.title.x = element_text(margin = margin(t = 10), color = "white"),
+        axis.title.y = element_text(margin = margin(r = 10), color = "white"),
+        axis.text.x = element_text(margin = margin(t = 5), color = "white"),
+        axis.text.y = element_text(margin = margin(r = 5), color = "white"),
+        plot.title = element_text(hjust = 0.5, margin = margin(b = 10), color = "white"),
+        plot.subtitle = element_text(hjust = 0, margin = margin(b = 5), color = "white"))
 
 p 
 # Save the plot as a high-resolution PNG file
@@ -46,11 +56,21 @@ p_short <- ggplot(data, aes(x = reorder(new_aa_1l, -mean_ddg), y = mean_ddg)) +
        x = "Residue type", 
        y = "Mean ddg score") +
   scale_y_continuous(limits = c(0, 2000), breaks = seq(0, 2000, by = 250)) + # set the y-axis limits and intervals
-  # theme_economist() + # use The Economist theme
   coord_flip() +  # flip the x and y axes
-  theme(plot.title = element_text(hjust = 0.5, margin = margin(b = 10)),
-        plot.subtitle = element_text(hjust = 0, margin = margin(b = 5)),
-        panel.background = element_rect(fill = NA))
+  theme(plot.background = element_rect(fill = "#191919", color = NA),
+        panel.background = element_blank(),
+        panel.grid.major.y = element_line(color = "gray90", size = 0.5),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        axis.line = element_line(color = "white"),
+        axis.ticks = element_line(color = "white"),
+        axis.title.x = element_text(margin = margin(t = 10), color = "white"),
+        axis.title.y = element_text(margin = margin(r = 10), color = "white"),
+        axis.text.x = element_text(margin = margin(t = 5), color = "white"),
+        axis.text.y = element_text(margin = margin(r = 5), color = "white"),
+        plot.title = element_text(hjust = 0.5, margin = margin(b = 10), color = "white"),
+        plot.subtitle = element_text(hjust = 0, margin = margin(b = 5), color = "white"))
 p_short
 
 ggsave(filename = file.path("charts", "mean_ddg_score_vs_new_aa_short.png"), plot = p_short, width = 8, height = 6, dpi = 300)

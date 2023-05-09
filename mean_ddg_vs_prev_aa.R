@@ -4,11 +4,6 @@ library(ggthemes)
 library(dplyr)
 
 
-
-
-# mean_ddg_score_by_grouping_new_residues
-
-
 # Reading the csv file 
 entireProtein <- read.csv("entireProtein.csv")
 
@@ -33,18 +28,20 @@ data <- data[order(desc(data$mean_ddg)),]
 p <- ggplot(data, aes(x = factor(previous_aa, levels = previous_aa), y = mean_ddg)) +
   geom_bar(stat = "identity", fill = "#1DB954") +
   scale_y_continuous(expand = c(0, 0), breaks = seq(0, 800, by = 100), limits = c(0, 800)) +
-  theme(plot.title = element_text(hjust = 0, size = 16, face = "bold"),
-        axis.title = element_text(size = 14, face = "bold"),
+  theme(plot.title = element_text(hjust = 0, size = 16, face = "bold", color = "white"),
+        axis.title = element_text(size = 14, face = "bold", color = "white"),
         axis.text = element_text(size = 12),
+        plot.background = element_rect(fill = "#191919"),
         panel.background = element_blank(),
         panel.grid.major.y = element_blank(),
         panel.grid.minor.y = element_blank(),
         panel.grid.major.x = element_line(color = "gray90", size = 0.5),
         panel.grid.minor.x = element_blank()) +
-  ggtitle("Mean ddg scores grouped by the amino acid that was added") +
+  ggtitle("Mean ddg the amino acid that was removed by mutation") +
   labs(x = "Previous amino acid", y = "Mean ddg") +
   geom_hline(yintercept = mean_ddg_mean, color = "red", size = 1.5, linetype = "dashed") +
   theme(plot.margin = unit(c(1, 1, 1, 0.5), "cm"))
+
 
 p 
 

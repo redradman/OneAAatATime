@@ -27,14 +27,21 @@ Ordereddata <- data[order(desc(data$mean_ddg)),]
 p_order <- ggplot(Ordereddata, aes(x = factor(residue_number, levels = residue_number), y = mean_ddg)) +
   geom_bar(stat = "identity", fill = "#1DB954") +
   scale_y_continuous(expand = c(0, 0), breaks = seq(0, 1700, by = 100), limits = c(0, 1700)) +
-  theme(plot.title = element_text(hjust = 0, size = 16, face = "bold"),
-        axis.title = element_text(size = 14, face = "bold"),
-        axis.text = element_text(size = 12),
+  theme(plot.background = element_rect(fill = "#191919", color = NA),
         panel.background = element_blank(),
         panel.grid.major.y = element_blank(),
         panel.grid.minor.y = element_blank(),
-        panel.grid.major.x = element_line(color = "gray90", size = 0.5),
-        panel.grid.minor.x = element_blank()) +
+        panel.grid.major.x = element_line(color = "#191919", size = 0.5),
+        panel.grid.minor.x = element_blank(),
+        axis.line = element_line(color = "white"),
+        axis.ticks = element_line(color = "white"),
+        axis.title.x = element_text(margin = margin(t = 10), color = "white"),
+        axis.title.y = element_text(margin = margin(r = 10), color = "white"),
+        axis.text.x = element_text(margin = margin(t = 5), color = "white"),
+        axis.text.y = element_text(margin = margin(r = 5), color = "white"),
+        plot.title = element_text(hjust = 0, size = 16, face = "bold", color = "white"),
+        plot.margin = unit(c(1, 1, 1, 0.5), "cm"),
+        plot.subtitle = element_blank()) +
   ggtitle("Mean ddg scores for all of the 19 mutations at residue number x") +
   labs(x = "Residue Number", y = "Mean ddg") +
   geom_hline(yintercept = mean_ddg_mean, color = "red", size = 1.5, linetype = "dashed") +
@@ -51,14 +58,21 @@ ggsave(filename = "charts/mean_ddg_score_per_residue_num_from_max_to_min.png", p
 p_unorder <- ggplot(data, aes(x = factor(residue_number, levels = residue_number), y = mean_ddg)) +
   geom_bar(stat = "identity", fill = "#1DB954") +
   scale_y_continuous(expand = c(0, 0), breaks = seq(0, 1700, by = 100), limits = c(0, 1700)) +
-  theme(plot.title = element_text(hjust = 0, size = 16, face = "bold"),
-        axis.title = element_text(size = 14, face = "bold"),
-        axis.text = element_text(size = 12),
+  theme(plot.background = element_rect(fill = "#191919", color = NA),
         panel.background = element_blank(),
         panel.grid.major.y = element_blank(),
         panel.grid.minor.y = element_blank(),
-        panel.grid.major.x = element_line(color = "gray90", size = 0.5),
-        panel.grid.minor.x = element_blank()) +
+        panel.grid.major.x = element_line(color = "#191919", size = 0.5),
+        panel.grid.minor.x = element_blank(),
+        axis.line = element_line(color = "white"),
+        axis.ticks = element_line(color = "white"),
+        axis.title.x = element_text(margin = margin(t = 10), color = "white"),
+        axis.title.y = element_text(margin = margin(r = 10), color = "white"),
+        axis.text.x = element_text(margin = margin(t = 5), color = "white"),
+        axis.text.y = element_text(margin = margin(r = 5), color = "white"),
+        plot.title = element_text(hjust = 0, size = 16, face = "bold", color = "white"),
+        plot.margin = unit(c(1, 1, 1, 0.5), "cm"),
+        plot.subtitle = element_blank()) +
   ggtitle("Mean ddg scores for all of the 19 mutations at residue number x") +
   labs(x = "Residue Number", y = "Mean ddg") +
   geom_hline(yintercept = mean_ddg_mean, color = "red", size = 1.5, linetype = "dashed") +
@@ -91,14 +105,21 @@ data_batched <- data %>%
 p_batch <- ggplot(data_batched, aes(x = factor(batch), y = mean_ddg)) +
   geom_bar(stat = "identity", fill = "#1DB954") +
   scale_y_continuous(expand = c(0, 0), breaks = seq(0, 800, by = 100), limits = c(0, 800)) +
-  theme(plot.title = element_text(hjust = 0, size = 16, face = "bold"),
-        axis.title = element_text(size = 14, face = "bold"),
-        axis.text = element_text(size = 12),
+  theme(plot.background = element_rect(fill = "#191919", color = NA),
         panel.background = element_blank(),
         panel.grid.major.y = element_blank(),
         panel.grid.minor.y = element_blank(),
-        panel.grid.major.x = element_line(color = "gray90", size = 0.5),
-        panel.grid.minor.x = element_blank()) +
+        panel.grid.major.x = element_line(color = "#191919", size = 0.5),
+        panel.grid.minor.x = element_blank(),
+        axis.line = element_line(color = "white"),
+        axis.ticks = element_line(color = "white"),
+        axis.title.x = element_text(margin = margin(t = 10), color = "white"),
+        axis.title.y = element_text(margin = margin(r = 10), color = "white"),
+        axis.text.x = element_text(margin = margin(t = 5), color = "white"),
+        axis.text.y = element_text(margin = margin(r = 5), color = "white"),
+        plot.title = element_text(hjust = 0, size = 16, face = "bold", color = "white"),
+        plot.margin = unit(c(1, 1, 1, 0.5), "cm"),
+        plot.subtitle = element_blank()) +
   ggtitle("Mean ddg scores grouped by the amino acid that was added") +
   labs(x = "Residue Number (batches of 35)", y = "Mean ddg") +
   geom_hline(yintercept = mean(data$mean_ddg), color = "red", size = 1.5, linetype = "dashed") +
