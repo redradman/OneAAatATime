@@ -25,7 +25,7 @@ Ordereddata <- data[order(desc(data$mean_ddg)),]
 
 # Create the bar chart
 p_order <- ggplot(Ordereddata, aes(x = factor(residue_number, levels = residue_number), y = mean_ddg)) +
-  geom_bar(stat = "identity", fill = "#F28F3B") +
+  geom_bar(stat = "identity", fill = "#1DB954") +
   scale_y_continuous(expand = c(0, 0), breaks = seq(0, 1700, by = 100), limits = c(0, 1700)) +
   theme(plot.title = element_text(hjust = 0, size = 16, face = "bold"),
         axis.title = element_text(size = 14, face = "bold"),
@@ -49,7 +49,7 @@ ggsave(filename = "charts/mean_ddg_score_per_residue_num_from_max_to_min.png", p
 
 
 p_unorder <- ggplot(data, aes(x = factor(residue_number, levels = residue_number), y = mean_ddg)) +
-  geom_bar(stat = "identity", fill = "#F28F3B") +
+  geom_bar(stat = "identity", fill = "#1DB954") +
   scale_y_continuous(expand = c(0, 0), breaks = seq(0, 1700, by = 100), limits = c(0, 1700)) +
   theme(plot.title = element_text(hjust = 0, size = 16, face = "bold"),
         axis.title = element_text(size = 14, face = "bold"),
@@ -89,7 +89,7 @@ data_batched <- data %>%
 
 # Create the bar chart with batched x-axis labels
 p_batch <- ggplot(data_batched, aes(x = factor(batch), y = mean_ddg)) +
-  geom_bar(stat = "identity", fill = "#F28F3B") +
+  geom_bar(stat = "identity", fill = "#1DB954") +
   scale_y_continuous(expand = c(0, 0), breaks = seq(0, 800, by = 100), limits = c(0, 800)) +
   theme(plot.title = element_text(hjust = 0, size = 16, face = "bold"),
         axis.title = element_text(size = 14, face = "bold"),

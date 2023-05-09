@@ -21,22 +21,40 @@ data$new_aa_1l <- factor(aa_and_ddg$new_aa_1l, exclude = NA)
 
 # Plot the bar plot with The Economist theme
 p <- ggplot(data, aes(x = reorder(new_aa_1l, -mean_ddg), y = mean_ddg)) +
-  geom_bar(stat = "identity", fill = "#4575b4") + # blue color for the bars
+  geom_bar(stat = "identity", fill = "#1DB954") + 
   geom_hline(yintercept = mean(data$mean_ddg), color = "red", size = 1.5, linetype = "dashed") + # add mean line
-  labs(title = "Mean ddg scores grouped by the amino acid that was mutated", 
+  labs(title = "Mean ddg scores grouped by the AA that was added to the sequence", 
        x = "Residue type", 
        y = "Mean ddg score",
        subtitle = "The new (mutated) amino acid chains were group together by which amino acid was added.\nAfterwards, the mean ddg value was calculated for the new residue.\nThis shows that on average a single point mutation with P as the new residue increases the ddg value the most.\nConversely, if the new residue is G the mean ddg value is unlikely to change.") +
   scale_y_continuous(limits = c(0, 2000), breaks = seq(0, 2000, by = 250)) + # set the y-axis limits and intervals
-  theme_economist() + # use The Economist theme
+  # theme_economist() + # use The Economist theme
   coord_flip() +  # flip the x and y axes
   theme(plot.title = element_text(hjust = 0.5, margin = margin(b = 10)),
         plot.subtitle = element_text(hjust = 0, margin = margin(b = 5)),
-        axis.text = element_text(face = "bold"))
+        panel.background = element_rect(fill = NA))
 
 p 
 # Save the plot as a high-resolution PNG file
 ggsave(filename = file.path("charts", "mean_ddg_score_vs_new_aa.png"), plot = p, width = 8, height = 6, dpi = 300)
+
+
+p_short <- ggplot(data, aes(x = reorder(new_aa_1l, -mean_ddg), y = mean_ddg)) +
+  geom_bar(stat = "identity", fill = "#1DB954") + 
+  geom_hline(yintercept = mean(data$mean_ddg), color = "red", size = 1.5, linetype = "dashed") + # add mean line
+  labs(title = "Mean ddg scores grouped by the AA that was added to the sequence", 
+       x = "Residue type", 
+       y = "Mean ddg score") +
+  scale_y_continuous(limits = c(0, 2000), breaks = seq(0, 2000, by = 250)) + # set the y-axis limits and intervals
+  # theme_economist() + # use The Economist theme
+  coord_flip() +  # flip the x and y axes
+  theme(plot.title = element_text(hjust = 0.5, margin = margin(b = 10)),
+        plot.subtitle = element_text(hjust = 0, margin = margin(b = 5)),
+        panel.background = element_rect(fill = NA))
+p_short
+
+ggsave(filename = file.path("charts", "mean_ddg_score_vs_new_aa_short.png"), plot = p_short, width = 8, height = 6, dpi = 300)
+
 
 
 
