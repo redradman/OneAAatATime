@@ -120,7 +120,7 @@ p_batch <- ggplot(data_batched, aes(x = factor(batch), y = mean_ddg)) +
         plot.title = element_text(hjust = 0, size = 16, face = "bold", color = "white"),
         plot.margin = unit(c(1, 1, 1, 0.5), "cm"),
         plot.subtitle = element_blank()) +
-  ggtitle("Mean ddg scores grouped by the amino acid that was added") +
+  ggtitle("Mean ddg scores of mutants put into groups of 35 consecutively") +
   labs(x = "Residue Number (batches of 35)", y = "Mean ddg") +
   geom_hline(yintercept = mean(data$mean_ddg), color = "red", size = 1.5, linetype = "dashed") +
   theme(plot.margin = unit(c(1, 1, 1, 0.5), "cm")) +
