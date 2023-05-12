@@ -15,10 +15,9 @@ pyrosetta.init("-out:level 600")
 # reading the PDB file
 stay_gold = pyrosetta.pose_from_pdb("pdb_files/StayGold_Intein_v9.pdb")
 gyra_intein = pyrosetta.pose_from_pdb("pdb_files/1am2.pdb")
+docked = pyrosetta.pose_from_pdb("pdb_files/dockedNrdj-1mCherry.pdb")
 
 # commencing analysis
 # single_mutation_analysis(stay_gold, "stayGold.csv")
-
 # single_mutation_analysis(gyra_intein, "intein.csv")
-docked = pyrosetta.pose_from_pdb("pdb_files/dockedNrdj-1mCherry.pdb")
 single_mutation_analysis(docked,"docked.csv")
