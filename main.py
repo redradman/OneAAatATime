@@ -30,7 +30,8 @@ sample = pyrosetta.pose_from_pdb("pdb_files/sample/1ubq.pdb")
 # single_mutation_analysis(sample, "sample.csv")
 
 # single_insertion(sample, "sample_single_aa.csv")
+single_deletion(sample, "sample_single_aa_del.csv")
 
 # pose = pose_from_sequence('A'*10, auto_termini=True)  # original pose
 
-single_deletion_sequences("AA")
+# single_deletion_sequences("AA")

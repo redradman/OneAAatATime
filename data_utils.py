@@ -83,7 +83,7 @@ def single_mutation_analysis(wt_pose, filename: str):
     
 def single_insertion(wt_pose, filename: str):
     """ 
-    Calculates the score for all of the possible point mutations of the wild-type amino acid sequence of the pdb file
+    Calculates the score for all of the possible single insertion mutations of the wild-type amino acid sequence of the pdb file
     """
     # setting up
     init(wt_pose)
@@ -98,7 +98,7 @@ def single_insertion(wt_pose, filename: str):
     
     for i in tqdm(single_insertion_seqs, desc="Mutating residues"):
         residue =i["insert_position"]
-        previous_aa = i["previous_char"]
+        previous_aa = i["previous_aa"]
         new_aa = i['new_aa']
         mutant_pose = pose_from_sequence(i["new_sequence"], auto_termini=True)
         
@@ -127,11 +127,51 @@ def single_insertion(wt_pose, filename: str):
     df.to_csv(filename, index=False)
     
 
-def single_deletion():
+def single_deletion(wt_pose, filename: str):
     """
-    Creates all of the possible amino acid sequences were ................. from the amino acid sequence of the pdb file
+    Creates all of the possible amino acid sequences where 1 aa is removed from wild type and calculates the score for each of them
     """
-    pass
+    # setting up
+    init(wt_pose)
+    
+    # make df and add wild_type
+    df = make_data_frame()
+    add_wildtype(wt_pose, df)
+    
+    # get wild type sequence and make a list of all of the possible mutants sequences
+    wt_seq = wt_pose.sequence()
+    single_insertion_seqs = single_deletion_sequences(wt_seq)
+    
+    for i in tqdm(single_insertion_seqs, desc="Mutating residues"):
+        residue =i["deletion_position"]
+        previous_aa = i["previous_aa"]
+        mutant_pose = pose_from_sequence(i["new_sequence"], auto_termini=True)
+        
+        mut_hbonds = calculate_hbonds_simple(mutant_pose)
+        mut_sasa = calc_sasa_water(mutant_pose)
+        mut_secondary = calculate_secondary_stucture(mutant_pose)
+        
+        # adding row to the data frame
+        df.loc[len(df)] = ['single_aa_deletion', # wild_type or mutant type
+            residue,  # residue
+            previous_aa, # previous aa
+            "NA", # new AA 1L
+            "NA", # new AA 3L
+            "NA", # resiude number + previous aa + new aa i.e. 3AtoR (at resiude number 3 A was converted to R)
+            mutant_pose.sequence(), # new seq
+            calculate_FA_score(mutant_pose), # FA score
+            calculate_ddg_score(wt_pose, mutant_pose), # the ddG score
+            mut_hbonds, # hydrogen bonding
+            mut_sasa, # SASA
+            mut_secondary, # 2nd-ary structure string
+            mut_hbonds - wt_hbonds, # diff hbonds
+            mut_sasa - wt_sasa, # diff sasa
+            string_difference(wt_secondary, mut_secondary) # diff 2nd-ary structure
+            ]
+        
+    df.to_csv(filename, index=False)
+    
+    
 
 def single_insertion_sequences(sequence):
     amino_acids = "ACDEFGHIKLMNPQRSTVWY"  # string of 20 standard amino acids
@@ -143,7 +183,7 @@ def single_insertion_sequences(sequence):
             previous_char = sequence[i-1] if i > 0 else sequence[-1]
             new_sequences.append({
                 'new_sequence': new_sequence,
-                'previous_char': previous_char,
+                'previous_aa': previous_char,
                 'insert_position': i + 1,
                 'new_aa': amino_acid
             })
