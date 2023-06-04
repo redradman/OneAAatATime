@@ -8,6 +8,13 @@ from pyrosetta.rosetta.core.scoring import calc_total_sasa
 from pyrosetta.rosetta.protocols.membrane import get_secstruct
 from tqdm import tqdm
 
+
+from pyrosetta.rosetta.core.conformation import ResidueFactory
+from pyrosetta.rosetta.core.chemical import ChemicalManager
+
+
+from pyrosetta import rosetta as core
+
 amino_acids = "ACDEFGHIKLMNPQRSTVWY"  # string of 20 standard amino acids
 
 # added for gyration 
@@ -21,17 +28,21 @@ def init(wt_pose):
     global wt_hbonds
     global wt_sasa 
     global wt_secondary
-    wt_hbonds, wt_sasa, wt_secondary = add_wildtype(wt_pose, df)
+    wt_hbonds = calculate_hbonds_simple(wt_pose)
+    wt_sasa = calc_sasa_water(wt_pose)
+    wt_secondary = calculate_secondary_stucture(wt_pose)
 
 ################################################################
-def single_mutation_analysis(wt_pose, filename):
+def single_mutation_analysis(wt_pose, filename: str):
     """
     Creates all possible single AA mutation when given a wildtype pose
     """
     # setting up
     init(wt_pose)
     
+    # make df and add wild type
     df = make_data_frame()
+    add_wildtype(wt_pose, df)
     # the loop for adding all of the mutants
 
     for i in tqdm(range(1, wt_pose.total_residue() + 1), desc="Mutating residues"):
@@ -70,11 +81,51 @@ def single_mutation_analysis(wt_pose, filename):
     # converting the data frame to a csv file
     df.to_csv(filename, index=False)
     
-def single_insertion():
+def single_insertion(wt_pose, filename: str):
     """ 
     Calculates the score for all of the possible point mutations of the wild-type amino acid sequence of the pdb file
     """
-    extend_sequence(sequence)
+    # setting up
+    init(wt_pose)
+    
+    # make df and add wild_type
+    df = make_data_frame()
+    add_wildtype(wt_pose, df)
+
+    # get wild type sequence and make a list of all of the possible mutants sequences
+    wt_seq = wt_pose.sequence()
+    single_insertion_seqs = extend_sequence(wt_seq)
+    
+    for i in tqdm(single_insertion_seqs, desc="Mutating residues"):
+        residue =i["insert_position"]
+        previous_aa = i["previous_char"]
+        new_aa = i['new_aa']
+        mutant_pose = pose_from_sequence(i["new_sequence"], auto_termini=True)
+        
+        mut_hbonds = calculate_hbonds_simple(mutant_pose)
+        mut_sasa = calc_sasa_water(mutant_pose)
+        mut_secondary = calculate_secondary_stucture(mutant_pose)
+        
+        # adding row to the data frame
+        df.loc[len(df)] = ['single_aa_insertion', # wild_type or mutant type
+            residue,  # residue
+            "NA", # previous aa
+            new_aa, # new AA 1L
+            get_three_letter_code(new_aa), # new AA 3L
+            "NA", # resiude number + previous aa + new aa i.e. 3AtoR (at resiude number 3 A was converted to R)
+            mutant_pose.sequence(), # new seq
+            calculate_FA_score(mutant_pose), # FA score
+            calculate_ddg_score(wt_pose, mutant_pose), # the ddG score
+            mut_hbonds, # hydrogen bonding
+            mut_sasa, # SASA
+            mut_secondary, # 2nd-ary structure string
+            mut_hbonds - wt_hbonds, # diff hbonds
+            mut_sasa - wt_sasa, # diff sasa
+            string_difference(wt_secondary, mut_secondary) # diff 2nd-ary structure
+            ]
+        
+    df.to_csv(filename, index=False)
+    
 
 def single_deletion():
     """
@@ -83,15 +134,22 @@ def single_deletion():
     pass
 
 def extend_sequence(sequence):
-    """Returns a list of all of the possible amino acid sequences where all 20 types of amino acids have been insert3ed to all of the positons"""
-    
     amino_acids = "ACDEFGHIKLMNPQRSTVWY"  # string of 20 standard amino acids
     new_sequences = []
 
     for i in range(len(sequence) + 1):
         for amino_acid in amino_acids:
             new_sequence = sequence[:i] + amino_acid + sequence[i:]
-            new_sequences.append(new_sequence)
+            previous_char = sequence[i-1] if i > 0 else sequence[-1]
+            new_sequences.append({
+                'new_sequence': new_sequence,
+                'previous_char': previous_char,
+                'insert_position': i + 1,
+                'new_aa': amino_acid
+            })
+
+    return new_sequences
+
 
     return new_sequences
 
@@ -145,7 +203,6 @@ def add_wildtype(wt_pose, df):
                         0,
                         0
                         ]
-    return wt_hbonds, wt_sasa, wt_secondary
     
 
 ################################################################
@@ -320,8 +377,9 @@ def string_difference(str1, str2) -> int:
         int: The number of characters that differ between the two strings.
     """
     # Ensure that the input strings have the same length
-    if len(str1) != len(str2):
-        raise ValueError("Input strings must have the same length.")
+    # if len(str1) != len(str2):
+    #     raise ValueError("Input strings must have the same length.")
+    
     # Check if the strings are the same
     if str1 == str2:
         return 0
