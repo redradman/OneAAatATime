@@ -151,6 +151,9 @@ def single_insertion_sequences(sequence):
     return new_sequences
 
 def single_deletion_sequences(sequence):
+    """ 
+    Creates all of the mutations of the passed sequence such that in each iteration a single amino acid is deleted from the squence.
+    """
     new_sequences = []
 
     for i in range(len(sequence)):
