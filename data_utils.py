@@ -94,7 +94,7 @@ def single_insertion(wt_pose, filename: str):
 
     # get wild type sequence and make a list of all of the possible mutants sequences
     wt_seq = wt_pose.sequence()
-    single_insertion_seqs = extend_sequence(wt_seq)
+    single_insertion_seqs = single_insertion_sequences(wt_seq)
     
     for i in tqdm(single_insertion_seqs, desc="Mutating residues"):
         residue =i["insert_position"]
@@ -133,7 +133,7 @@ def single_deletion():
     """
     pass
 
-def extend_sequence(sequence):
+def single_insertion_sequences(sequence):
     amino_acids = "ACDEFGHIKLMNPQRSTVWY"  # string of 20 standard amino acids
     new_sequences = []
 
@@ -150,7 +150,18 @@ def extend_sequence(sequence):
 
     return new_sequences
 
+def single_deletion_sequences(sequence):
+    new_sequences = []
 
+    for i in range(len(sequence)):
+        new_sequence = sequence[:i] + sequence[i+1:]
+        removed_char = sequence[i]
+        new_sequences.append({
+            'new_sequence': new_sequence,
+            'previous_aa': removed_char,
+            'deletion_position': i + 1
+        })
+    print(new_sequences)
     return new_sequences
 
 def make_data_frame():

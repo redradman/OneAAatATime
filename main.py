@@ -29,14 +29,8 @@ sample = pyrosetta.pose_from_pdb("pdb_files/sample/1ubq.pdb")
 
 # single_mutation_analysis(sample, "sample.csv")
 
-single_insertion(sample, "sample_single_aa.csv")
+# single_insertion(sample, "sample_single_aa.csv")
 
 # pose = pose_from_sequence('A'*10, auto_termini=True)  # original pose
 
-# Create a new Pose with a single residue 'G' 
-# single_residue = pose_from_sequence('G')
-
-# Insert the single_residue Pose after position 5 in the original Pose
-# pose.conformation().insert_residue_by_bond(5, single_residue.residue(1), 5, "", "", False)
-
-# print(extend_sequence("A"), sep = '/n')
+single_deletion_sequences("AA")
