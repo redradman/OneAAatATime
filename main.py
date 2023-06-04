@@ -13,10 +13,10 @@ os.system('pip3 install -r requirements.txt')
 pyrosetta.init("-out:level 600")
 
 # reading the PDB file
-stay_gold = pyrosetta.pose_from_pdb("pdb_files/StayGold_Intein_v9.pdb")
-gyra_intein = pyrosetta.pose_from_pdb("pdb_files/1am2.pdb")
-docked = pyrosetta.pose_from_pdb("pdb_files/dockedNrdj-1mCherry.pdb")
-il_10 = pyrosetta.pose_from_pdb("pdb_files/2h24.pdb")
+# stay_gold = pyrosetta.pose_from_pdb("pdb_files/StayGold_Intein_v9.pdb")
+# gyra_intein = pyrosetta.pose_from_pdb("pdb_files/1am2.pdb")
+# docked = pyrosetta.pose_from_pdb("pdb_files/dockedNrdj-1mCherry.pdb")
+# il_10 = pyrosetta.pose_from_pdb("pdb_files/2h24.pdb")
 sample = pyrosetta.pose_from_pdb("pdb_files/sample/1ubq.pdb")
 
 # commencing analysis
@@ -25,4 +25,6 @@ sample = pyrosetta.pose_from_pdb("pdb_files/sample/1ubq.pdb")
 # single_mutation_analysis(gyra_intein, "intein.csv")
 # single_mutation_analysis(docked,"docked.csv")
 # single_mutation_analysis(il_10,"il_10.csv")
+
+
 single_mutation_analysis(sample, "sample.csv")

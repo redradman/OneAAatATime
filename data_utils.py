@@ -70,7 +70,7 @@ def single_mutation_analysis(wt_pose, filename):
     
 def single_insertion():
     """ 
-    Creates all of the new amino acid sequences were an amino acid was inserted into the amino acid sequence of the pdb file
+    Calculates the score for all of the possible point mutations of the wild-type amino acid sequence of the pdb file
     """
     pass
 
@@ -80,7 +80,18 @@ def single_deletion():
     """
     pass
 
+def extend_sequence(sequence):
+    """Returns a list of all of the possible amino acid sequences where all 20 types of amino acids have been insert3ed to all of the positons"""
+    
+    amino_acids = "ACDEFGHIKLMNPQRSTVWY"  # string of 20 standard amino acids
+    new_sequences = []
 
+    for i in range(len(sequence) + 1):
+        for amino_acid in amino_acids:
+            new_sequence = sequence[:i] + amino_acid + sequence[i:]
+            new_sequences.append(new_sequence)
+
+    return new_sequences
 
 def make_data_frame():
     """ 
