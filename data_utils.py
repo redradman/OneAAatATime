@@ -16,8 +16,8 @@ amino_acids = "ACDEFGHIKLMNPQRSTVWY"  # string of 20 standard amino acids
 ################################################################
 def init(wt_pose):
     """Creates the data frame and the calculates the scores for wild_type"""
-    global df 
-    df = make_data_frame()
+    # global df 
+    # df = make_data_frame()
     global wt_hbonds
     global wt_sasa 
     global wt_secondary
@@ -30,6 +30,8 @@ def single_mutation_analysis(wt_pose, filename):
     """
     # setting up
     init(wt_pose)
+    
+    df = make_data_frame()
     # the loop for adding all of the mutants
 
     for i in tqdm(range(1, wt_pose.total_residue() + 1), desc="Mutating residues"):
@@ -72,7 +74,7 @@ def single_insertion():
     """ 
     Calculates the score for all of the possible point mutations of the wild-type amino acid sequence of the pdb file
     """
-    pass
+    extend_sequence(sequence)
 
 def single_deletion():
     """
