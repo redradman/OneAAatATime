@@ -47,7 +47,7 @@ def single_mutation_analysis(wt_pose, filename):
                 mut_secondary = calculate_secondary_stucture(mutant_pose)
                 
                 # adding row to the data frame
-                df.loc[len(df)] = ['mutant', # wild_type or mutant
+                df.loc[len(df)] = ['point_mutantion', # wild_type or mutant type
                                i,  # residue
                                previous_aa, # previous aa
                                aa, # new AA 1L
