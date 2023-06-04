@@ -13,17 +13,23 @@ amino_acids = "ACDEFGHIKLMNPQRSTVWY"  # string of 20 standard amino acids
 # added for gyration 
 # import math
 # from pyrosetta.rosetta.numeric import xyzVector_double_t
-
+################################################################
+def init(wt_pose):
+    """Creates the data frame and the calculates the scores for wild_type"""
+    global df 
+    df = make_data_frame()
+    global wt_hbonds
+    global wt_sasa 
+    global wt_secondary
+    wt_hbonds, wt_sasa, wt_secondary = add_wildtype(wt_pose, df)
 
 ################################################################
 def single_mutation_analysis(wt_pose, filename):
     """
     Creates all possible single AA mutation when given a wildtype pose
     """
-    
-    df = make_data_frame()
-    wt_hbonds, wt_sasa, wt_secondary = add_wildtype(wt_pose, df)
-    
+    # setting up
+    init(wt_pose)
     # the loop for adding all of the mutants
 
     for i in tqdm(range(1, wt_pose.total_residue() + 1), desc="Mutating residues"):
@@ -39,7 +45,6 @@ def single_mutation_analysis(wt_pose, filename):
                 mut_hbonds = calculate_hbonds_simple(mutant_pose)
                 mut_sasa = calc_sasa_water(mutant_pose)
                 mut_secondary = calculate_secondary_stucture(mutant_pose)
-                
                 
                 # adding row to the data frame
                 df.loc[len(df)] = ['mutant', # wild_type or mutant
