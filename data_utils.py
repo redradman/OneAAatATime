@@ -8,7 +8,7 @@ from pyrosetta.rosetta.core.scoring import calc_total_sasa
 from pyrosetta.rosetta.protocols.membrane import get_secstruct
 from tqdm import tqdm
 
-amino_acids = "ACDEFGHIKLMNPQRSTVWY"  # List of 20 standard amino acids
+amino_acids = "ACDEFGHIKLMNPQRSTVWY"  # string of 20 standard amino acids
 
 # added for gyration 
 # import math
@@ -22,31 +22,7 @@ def single_mutation_analysis(wt_pose, filename):
     """
     
     df = make_data_frame()
-    
-    wt_seq = wt_pose.sequence()
-    wt_FA_score = calculate_FA_score(wt_pose)
-    wt_hbonds = calculate_hbonds_simple(wt_pose)
-    wt_sasa = calc_sasa_water(wt_pose)
-    
-    wt_secondary = calculate_secondary_stucture(wt_pose)
-    
-    # adding the wildtype in the 1st row of the data frame
-    df.loc[len(df)] = ['wild_type', 
-                       'NA', 
-                       'NA', 
-                       'NA',  
-                       'NA',  
-                       'NA', 
-                       wt_seq, 
-                       wt_FA_score,
-                        0, # the ddG 
-                        wt_hbonds, # hydrogen bonding 
-                        wt_sasa, # SASA
-                        wt_secondary,
-                        0,
-                        0,
-                        0
-                        ]
+    add_wildtype(wt_pose)
     
     # the loop for adding all of the mutants
 
@@ -123,6 +99,36 @@ def make_data_frame():
                                ])
     
     return df
+    
+def add_wildtype(wt_pose, df):
+    """ 
+    adds the corresponding values of wildtype to the csv file
+    """
+    wt_seq = wt_pose.sequence()
+    wt_FA_score = calculate_FA_score(wt_pose)
+    wt_hbonds = calculate_hbonds_simple(wt_pose)
+    wt_sasa = calc_sasa_water(wt_pose)
+    
+    wt_secondary = calculate_secondary_stucture(wt_pose)
+    
+    # adding the wildtype in the 1st row of the data frame
+    df.loc[len(df)] = ['wild_type', 
+                       'NA', 
+                       'NA', 
+                       'NA',  
+                       'NA',  
+                       'NA', 
+                       wt_seq, 
+                       wt_FA_score,
+                        0, # the ddG 
+                        wt_hbonds, # hydrogen bonding 
+                        wt_sasa, # SASA
+                        wt_secondary,
+                        0,
+                        0,
+                        0
+                        ]
+    
     
 
 ################################################################
