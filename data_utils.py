@@ -22,7 +22,7 @@ def single_mutation_analysis(wt_pose, filename):
     """
     
     df = make_data_frame()
-    add_wildtype(wt_pose)
+    wt_hbonds, wt_sasa, wt_secondary = add_wildtype(wt_pose, df)
     
     # the loop for adding all of the mutants
 
@@ -108,7 +108,6 @@ def add_wildtype(wt_pose, df):
     wt_FA_score = calculate_FA_score(wt_pose)
     wt_hbonds = calculate_hbonds_simple(wt_pose)
     wt_sasa = calc_sasa_water(wt_pose)
-    
     wt_secondary = calculate_secondary_stucture(wt_pose)
     
     # adding the wildtype in the 1st row of the data frame
@@ -128,7 +127,7 @@ def add_wildtype(wt_pose, df):
                         0,
                         0
                         ]
-    
+    return wt_hbonds, wt_sasa, wt_secondary
     
 
 ################################################################
