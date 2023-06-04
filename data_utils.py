@@ -8,7 +8,7 @@ from pyrosetta.rosetta.core.scoring import calc_total_sasa
 from pyrosetta.rosetta.protocols.membrane import get_secstruct
 from tqdm import tqdm
 
-
+amino_acids = "ACDEFGHIKLMNPQRSTVWY"  # List of 20 standard amino acids
 
 # added for gyration 
 # import math
@@ -27,6 +27,7 @@ def single_mutation_analysis(wt_pose, filename):
     wt_FA_score = calculate_FA_score(wt_pose)
     wt_hbonds = calculate_hbonds_simple(wt_pose)
     wt_sasa = calc_sasa_water(wt_pose)
+    
     wt_secondary = calculate_secondary_stucture(wt_pose)
     
     # adding the wildtype in the 1st row of the data frame
@@ -48,7 +49,6 @@ def single_mutation_analysis(wt_pose, filename):
                         ]
     
     # the loop for adding all of the mutants
-    amino_acids = "ACDEFGHIKLMNPQRSTVWY"  # List of 20 standard amino acids
 
     for i in tqdm(range(1, wt_pose.total_residue() + 1), desc="Mutating residues"):
     # for i in range(1, wt_pose.total_residue() + 1):
@@ -86,6 +86,19 @@ def single_mutation_analysis(wt_pose, filename):
     
     # converting the data frame to a csv file
     df.to_csv(filename, index=False)
+    
+def single_insertion():
+    """ 
+    Creates all of the new amino acid sequences were an amino acid was inserted into the amino acid sequence of the pdb file
+    """
+    pass
+
+def single_deletion():
+    """
+    Creates all of the possible amino acid sequences were ................. from the amino acid sequence of the pdb file
+    """
+    pass
+
 
 
 def make_data_frame():

@@ -21,6 +21,6 @@ il_10 = pyrosetta.pose_from_pdb("pdb_files/2h24.pdb")
 # commencing analysis
 
 # single_mutation_analysis(stay_gold, "stayGold.csv")
-# single_mutation_analysis(gyra_intein, "intein.csv")
+single_mutation_analysis(gyra_intein, "intein.csv")
 # single_mutation_analysis(docked,"docked.csv")
 # single_mutation_analysis(il_10,"il_10.csv")
