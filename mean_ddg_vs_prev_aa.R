@@ -5,7 +5,7 @@ library(dplyr)
 
 
 # Reading the csv file 
-entireProtein <- read.csv("entireProtein.csv")
+entireProtein <- read.csv("stayGold.csv")
 
 # Removing the columns with sequences in the df
 proteinshort <- entireProtein[, -c(7)]
@@ -26,7 +26,7 @@ data <- data[order(desc(data$mean_ddg)),]
 
 # Create the bar chart
 p <- ggplot(data, aes(x = factor(previous_aa, levels = previous_aa), y = mean_ddg)) +
-  geom_bar(stat = "identity", fill = "#1DB954") +
+  geom_bar(stat = "identity", fill = "#BB86FC") +
   scale_y_continuous(expand = c(0, 0), breaks = seq(0, 800, by = 100), limits = c(0, 800)) +
   theme(plot.title = element_text(hjust = 0, size = 16, face = "bold", color = "white"),
         axis.title = element_text(size = 14, face = "bold", color = "white"),

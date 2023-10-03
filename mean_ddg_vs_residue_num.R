@@ -3,7 +3,7 @@ library(ggplot2)
 library(ggthemes)
 library(dplyr)
 
-entireProtein <- read.csv("entireProtein.csv")
+entireProtein <- read.csv("stayGold.csv")
 
 # Removing the columns with sequences in the df
 proteinshort <- entireProtein[, -c(7)]
@@ -25,7 +25,7 @@ Ordereddata <- data[order(desc(data$mean_ddg)),]
 
 # Create the bar chart
 p_order <- ggplot(Ordereddata, aes(x = factor(residue_number, levels = residue_number), y = mean_ddg)) +
-  geom_bar(stat = "identity", fill = "#1DB954") +
+  geom_bar(stat = "identity", fill = "#BB86FC") +
   scale_y_continuous(expand = c(0, 0), breaks = seq(0, 1700, by = 100), limits = c(0, 1700)) +
   theme(plot.background = element_rect(fill = "#191919", color = NA),
         panel.background = element_blank(),
@@ -56,7 +56,7 @@ ggsave(filename = "charts/mean_ddg_score_per_residue_num_from_max_to_min.png", p
 
 
 p_unorder <- ggplot(data, aes(x = factor(residue_number, levels = residue_number), y = mean_ddg)) +
-  geom_bar(stat = "identity", fill = "#1DB954") +
+  geom_bar(stat = "identity", fill = "#BB86FC") +
   scale_y_continuous(expand = c(0, 0), breaks = seq(0, 1700, by = 100), limits = c(0, 1700)) +
   theme(plot.background = element_rect(fill = "#191919", color = NA),
         panel.background = element_blank(),

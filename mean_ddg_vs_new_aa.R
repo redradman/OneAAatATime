@@ -4,7 +4,7 @@ library(ggthemes)
 library(dplyr)
 
 # removing the seq headers for higher readability 
-entireProtein <- read.csv("entireProtein.csv")
+entireProtein <- read.csv("stayGold.csv")
 proteinshort <- entireProtein[, -c(7)]
 proteinshort <- proteinshort[, (-c(11))]
 
@@ -21,7 +21,7 @@ data$new_aa_1l <- factor(aa_and_ddg$new_aa_1l, exclude = NA)
 
 # Plot the bar plot with The Economist theme
 p <- ggplot(data, aes(x = reorder(new_aa_1l, -mean_ddg), y = mean_ddg)) +
-  geom_bar(stat = "identity", fill = "#1DB954") + 
+  geom_bar(stat = "identity", fill = "#BB86FC") + 
   geom_hline(yintercept = mean(data$mean_ddg), color = "red", size = 1.5, linetype = "dashed") + # add mean line
   labs(title = "Mean ddg scores grouped by the AA that was added to the sequence", 
        x = "Residue type", 
@@ -50,7 +50,7 @@ ggsave(filename = file.path("charts", "mean_ddg_score_vs_new_aa.png"), plot = p,
 
 
 p_short <- ggplot(data, aes(x = reorder(new_aa_1l, -mean_ddg), y = mean_ddg)) +
-  geom_bar(stat = "identity", fill = "#1DB954") + 
+  geom_bar(stat = "identity", fill = "#BB86FC") + 
   geom_hline(yintercept = mean(data$mean_ddg), color = "red", size = 1.5, linetype = "dashed") + # add mean line
   labs(title = "Mean ddg scores grouped by the AA that was added to the sequence", 
        x = "Residue type", 
