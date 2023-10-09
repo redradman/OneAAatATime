@@ -30,7 +30,7 @@ p <- ggplot(data, aes(x = factor(previous_aa, levels = previous_aa), y = mean_dd
   scale_y_continuous(expand = c(0, 0), breaks = seq(0, 800, by = 100), limits = c(0, 800)) +
   theme(plot.title = element_text(hjust = 0, size = 16, face = "bold", color = "white"),
         axis.title = element_text(size = 14, face = "bold", color = "white"),
-        axis.text = element_text(size = 12),
+        axis.text = element_text(size = 12, color = "white"),
         plot.background = element_rect(fill = "#191919"),
         panel.background = element_blank(),
         panel.grid.major.y = element_blank(),
